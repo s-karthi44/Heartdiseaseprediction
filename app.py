@@ -48,24 +48,115 @@ if "encoders" not in st.session_state:
 st.markdown("""
 <style>
 
+/* Background */
+.stApp{
+    background:#0E1117;
+}
+
+/* Hide Streamlit Branding */
+#MainMenu{
+    visibility:hidden;
+}
+footer{
+    visibility:hidden;
+}
+header{
+    visibility:hidden;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"]{
+    background:#262730;
+}
+
+[data-testid="stSidebar"] h1{
+    color:white;
+}
+
+/* Main Title */
 .main-title{
-    text-align:center;
-    font-size:42px;
-    color:#E63946;
+    font-size:60px;
+    font-weight:800;
+    color:white;
+    margin-bottom:5px;
+}
+
+/* Subtitle */
+.sub-title{
+    font-size:20px;
+    color:#B0B0B0;
+    margin-bottom:30px;
+}
+
+/* Section Heading */
+.section-title{
+    font-size:46px;
+    font-weight:700;
+    color:white;
+    margin-top:30px;
+    margin-bottom:20px;
+}
+
+/* Green Welcome Box */
+.welcome-box{
+    background:#1E5631;
+    color:white;
+    padding:20px;
+    border-radius:12px;
+    font-size:22px;
     font-weight:bold;
 }
 
-.sub-title{
-    text-align:center;
-    color:gray;
-    font-size:18px;
+/* Upload Box */
+[data-testid="stFileUploader"]{
+    background:#22232D;
+    border-radius:12px;
+    border:1px solid #444;
+    padding:12px;
 }
 
-.block{
-    background:#f8f9fa;
+/* Buttons */
+.stButton>button{
+    width:100%;
+    background:#238636;
+    color:white;
+    border-radius:10px;
+    border:none;
+    height:48px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.stButton>button:hover{
+    background:#2EA043;
+}
+
+/* Metric Cards */
+[data-testid="metric-container"]{
+    background:#1B1D24;
+    border:1px solid #333;
     padding:20px;
-    border-radius:15px;
-    box-shadow:0px 0px 10px rgba(0,0,0,0.15);
+    border-radius:12px;
+}
+
+/* Tables */
+[data-testid="stDataFrame"]{
+    border-radius:12px;
+}
+
+/* Success Message */
+.stSuccess{
+    border-radius:12px;
+}
+
+/* Warning */
+.stWarning{
+    border-radius:12px;
+}
+
+/* Error */
+.stError{
+    border-radius:12px;
 }
 
 </style>
@@ -74,8 +165,17 @@ st.markdown("""
 # --------------------------------------------------
 # TITLE
 # --------------------------------------------------
-st.markdown("<h1 class='main-title'>❤️ Heart Disease Prediction System</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Machine Learning Based Heart Disease Prediction</p>", unsafe_allow_html=True)
+st.markdown(
+"""
+<h1 class='main-title'>
+❤️ Heart Disease Prediction System
+</h1>
+<p class='sub-title'>
+Upload Dataset ➜ Analyze ➜ Upload Model ➜ Predict
+</p>
+""",
+unsafe_allow_html=True
+)
 
 st.divider()
 # --------------------------------------------------
@@ -180,8 +280,22 @@ if st.session_state.logged_in == False:
 # --------------------------------------------------
 
 else:
+    st.sidebar.title("❤️ Heart Disease")
 
-    st.success(f"Welcome, {st.session_state.username} 👋")
+    st.sidebar.markdown(
+f"""
+<div class="welcome-box">
+
+Welcome
+
+<br><br>
+
+{st.session_state.username}
+
+</div>
+""",
+unsafe_allow_html=True
+)
 
     if st.button("Logout"):
         st.session_state.logged_in = False
@@ -199,7 +313,10 @@ else:
     # ======================================================
 
     st.markdown("---")
-    st.subheader("📂 Step 1 : Upload Dataset")
+    st.markdown(
+"<h2 class='section-title'>📂 Dataset Upload</h2>",
+unsafe_allow_html=True
+)
 
     uploaded_file = st.file_uploader(
         "Choose CSV File",
